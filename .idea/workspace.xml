@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="114aaa9e-1dc7-4eee-8103-b9303bb4d9a4" name="Default" comment="">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cataneda-v-partida/castaneda-v-partida.ipynb" afterPath="$PROJECT_DIR$/cataneda-v-partida/castaneda-v-partida.ipynb" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -13,7 +14,16 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="sacks-to-yardage.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="castaneda-v-partida.ipynb" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cataneda-v-partida/castaneda-v-partida.ipynb">
+          <provider selected="true" editor-type-id="ipnb-editor">
+            <state>
+              <selected id="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sacks-to-yardage.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/nfl/sacks-to-yardage.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="323">
@@ -72,10 +82,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/cataneda-v-partida/castaneda-v-partida.ipynb" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/nfl/nflfunctions.py" />
         <option value="$PROJECT_DIR$/nfl/sacks-to-yardage.py" />
+        <option value="$PROJECT_DIR$/cataneda-v-partida/castaneda-v-partida.ipynb" />
       </list>
     </option>
   </component>
@@ -276,13 +286,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cataneda-v-partida/castaneda-v-partida.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/pandas/io/common.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="175">
@@ -369,6 +372,13 @@
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cataneda-v-partida/castaneda-v-partida.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="3" />
         </state>
       </provider>
     </entry>

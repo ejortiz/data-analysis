@@ -1,9 +1,9 @@
-import numpy as np
+# import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
+# import seaborn as sns
 import pandas as pd
 from nflfunctions import get_all_players_by_position
-from nflfunctions import sum_player_stats_per_season
+# from nflfunctions import sum_player_stats_per_season
 from nflfunctions import sum_stats_per_grouping
 
 import os
@@ -22,7 +22,8 @@ df_games = pd.read_csv(games_full_path)
 
 rb_data = df_games[df_games["player_id"].isin(rb_profiles["player_id"])]
 
-rb_rushing_yards_df = sum_player_stats_per_season(rb_data, ['rushing_yards'])
+# rb_rushing_yards_df = sum_player_stats_per_season(rb_data, ['rushing_yards'])
+rb_rushing_yards_df = sum_stats_per_grouping(rb_data, ['year', 'team'], ['rushing_yards'])
 team_defensive_sacks = sum_stats_per_grouping(df_games, ['year', 'opponent'], ['defense_sacks'])
 
 indexed_rb_df = rb_rushing_yards_df.reset_index()
@@ -34,10 +35,12 @@ result_df = pd.merge(indexed_rb_df, indexed_sacks_df, left_on=['team', 'year'], 
 sacks = result_df['defense_sacks']
 rushing_yards = result_df["rushing_yards"]
 
-_ = plt.plot(result_df['defense_sacks'], result_df['rushing_yards'], linestyle='none', marker = '.')
+
+print(sacks.corr(rushing_yards))
+_ = plt.plot(result_df['defense_sacks'], result_df['rushing_yards'], linestyle='none', marker='.')
 _ = plt.margins(0.02)
 _ = plt.xlabel("sacks allowed per season")
 _ = plt.ylabel("RB Rushing Yards Per Season")
 plt.show()
 
-print(sacks.corr(rushing_yards))
+

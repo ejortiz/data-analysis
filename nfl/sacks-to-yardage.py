@@ -1,4 +1,4 @@
-# import numpy as np
+import numpy as np
 import matplotlib.pyplot as plt
 # import seaborn as sns
 import pandas as pd
@@ -22,25 +22,25 @@ df_games = pd.read_csv(games_full_path)
 
 rb_data = df_games[df_games["player_id"].isin(rb_profiles["player_id"])]
 
-# rb_rushing_yards_df = sum_player_stats_per_season(rb_data, ['rushing_yards'])
 rb_rushing_yards_df = sum_stats_per_grouping(rb_data, ['year', 'team'], ['rushing_yards'])
 team_defensive_sacks = sum_stats_per_grouping(df_games, ['year', 'opponent'], ['defense_sacks'])
 
-indexed_rb_df = rb_rushing_yards_df.reset_index()
-indexed_sacks_df = team_defensive_sacks.reset_index()
+rb_rushing_yards_df = rb_rushing_yards_df[rb_rushing_yards_df["year"] > 1981]  # Sacks as an NFL stat only came into play after 1981
+result_df = pd.merge(rb_rushing_yards_df, team_defensive_sacks, left_on=['team', 'year'], right_on=['opponent', 'year'])
 
-indexed_rb_df = indexed_rb_df[indexed_rb_df["year"] > 1981]  # Sacks as an NFL stat only came into play after 1981
-result_df = pd.merge(indexed_rb_df, indexed_sacks_df, left_on=['team', 'year'], right_on=['opponent', 'year'])
+sacks_result_df = result_df['defense_sacks']
+rushing_yards_result_df = result_df["rushing_yards"]
 
-sacks = result_df['defense_sacks']
-rushing_yards = result_df["rushing_yards"]
-
-
-print(sacks.corr(rushing_yards))
-_ = plt.plot(result_df['defense_sacks'], result_df['rushing_yards'], linestyle='none', marker='.')
+_ = plt.plot(sacks_result_df, rushing_yards_result_df, linestyle='none', marker='.')
 _ = plt.margins(0.02)
 _ = plt.xlabel("sacks allowed per season")
 _ = plt.ylabel("RB Rushing Yards Per Season")
+
+a, b = np.polyfit(sacks_result_df, rushing_yards_result_df, 1)
+# Make theoretical line to plot
+x = np.array([0, 100])
+y = a * x + b
+
+_ = plt.plot(x, y)
 plt.show()
-
-
+print(sacks_result_df.corr(rushing_yards_result_df))

@@ -16,3 +16,4 @@ def sum_stats_per_grouping(games_df, stats_to_group_by, stats_to_sum, reset_inde
     if(reset_index):
        result_df = result_df.reset_index()
     return result_df
+

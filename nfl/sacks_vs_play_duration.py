@@ -8,8 +8,8 @@ from nflfunctions import sum_stats_per_grouping
 
 import os
 file_path = os.path.dirname(os.path.abspath(__file__))
-play_duration_file = 'test.csv'
-games_file = 'test2.csv'
+play_duration_file = 'play_duration_inc_pass.csv'
+games_file = 'sack_totals.csv'
 play_duration_full_path = file_path + '\\' + play_duration_file
 games_full_path = file_path + '\\' + games_file
 

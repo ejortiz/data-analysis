@@ -2,10 +2,11 @@
 This file will be used as a test using Allen Downey's ThinkDSP library
 """
 import matplotlib.pyplot as plt
-import thinkdsp
-from SpectrumHelper import SpectrumHelper
 
-audio_file = 'audio_files/sample-clap.wav'
+import thinkdsp
+from think_dsp_sandbox.SpectrumHelper import SpectrumHelper
+
+audio_file = '../audio_files/sample-clap.wav'
 
 sample_wave = thinkdsp.read_wave(audio_file)
 # pusherman_wave.truncate(pusherman_wave.find_index(30))  # trim the wave to the first 30 seconds

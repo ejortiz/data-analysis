@@ -20,15 +20,15 @@ infection_rate_summary_init = {'mean': grouped_df['NumInfected'].mean(), 'quarti
                                                       grouped_df['NumInfected'].quantile(.25)) * 1.5)
                              }
 infection_rate_summary_df = pd.DataFrame(data=infection_rate_summary_init)
-print(infection_rate_summary_df.head())
 
+# reset the index of the infection rates so we can do a join with the existing infection df
+infection_rate_stats = infection_rate_summary_df.reset_index()
 
-# average the grouped infection
-grouped_mean_df = infection_df.groupby(by=['InfectionProbability'])['NumInfected'].mean()
-grouped_mean_df = grouped_mean_df.reset_index()  # reset the index of the dataframe
-grouped_mean_df.columns = ['InfectionProb', 'NumInfectedMean']
+# Do a join on the on the infection rates columns
+aggregate_df = pd.merge(infection_df, infection_rate_stats, left_on=['InfRate'], right_on=['InfRate'])
+aggregate_df['outlier'] = (aggregate_df['NumInfected'] > aggregate_df['upper-outlier-bound']) | \
+                          (aggregate_df['NumInfected'] < aggregate_df['lower-outlier-bound'])
 
-# _ = plt.plot(grouped_mean_df['InfectionProb'], grouped_mean_df['NumInfectedMean'], linestyle='none', marker='.')
-# _ = plt.show()
-# print(grouped_df.head())
-# print(grouped_mean_df.head())
+aggregate_df.to_csv('node-infection-stats.csv')
+print(aggregate_df.head())
+

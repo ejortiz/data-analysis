@@ -27,6 +27,12 @@ def get_dfs_from_json(json_file_path):
     return result
 
 
+def get_chord_from_timestamp_df(row, chord_timestamp_df):
+
+    chords = chord_timestamp_df.loc[chord_timestamp_df.iloc[:, 0] <= row['start']]
+    chords = chords.loc[chords.iloc[:, 1] >= row['start'] + row['duration']]
+    if chords['chord'].size > 0:
+        return chords['chord'].iloc[0]
 
 
 

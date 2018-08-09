@@ -23,4 +23,5 @@ segments_df = dfs['segments']
 segments_df['chord'] = ''
 
 segments_df['chord'] = segments_df.apply(get_chord_from_timestamp_df, axis=1, args=(chord_timestamp_df,))
+
 segments_df.to_csv('test.csv')

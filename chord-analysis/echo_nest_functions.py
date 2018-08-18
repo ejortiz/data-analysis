@@ -2,7 +2,16 @@ import json
 import ast
 from pandas.io.json import json_normalize
 import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
 
+chord_names_list = ['C', 'C#/Db', 'D', 'D#/Eb', 'E', 'F', 'F#/Gb', 'G', 'G#/Ab', 'A', 'A#/Bb', 'B']
+
+
+def get_chord_timestamp_df(full_lab_filepath, sep="\t"):
+    df = pd.read_csv(full_lab_filepath, sep=sep)
+    df.columns = ['start_chord', 'end_chord', 'chord']  # Rename columns
+    return df
 
 
 def get_dfs_from_json(json_file_path):
@@ -30,7 +39,7 @@ def get_dfs_from_json(json_file_path):
     return result
 
 
-def get_chord_from_timestamp_df(row, chord_timestamp_df):
+def get_chord_from_timestamp(row, chord_timestamp_df):
 
     chords = chord_timestamp_df.loc[chord_timestamp_df.iloc[:, 0] <= row['start']]
     chords = chords.loc[chords.iloc[:, 1] >= row['start'] + row['duration']]
@@ -57,6 +66,38 @@ def extract_pitch_class_columns(row):
     return row
 
 
+def get_df_with_pitch_class_cols(echonest_data_df, chord_timestamp_df):
+    segments_df = echonest_data_df['segments']
+    segments_df['chord'] = ''
+    segments_df['chord'] = segments_df.apply(get_chord_from_timestamp,
+                                             axis=1, args=(chord_timestamp_df,))
+    segments_df['pitches'] = segments_df['pitches'].astype('str')
+
+    result_df = segments_df.apply(extract_pitch_class_columns, axis=1)
+    return result_df
+
+
+def mean_pitch_val_df(chord_and_pitch_segment_df):
+    grouped_df = chord_and_pitch_segment_df.groupby(by=['chord'])
+    mean_pitch_df = grouped_df[
+        'C', 'C#/Db', 'D', 'D#/Eb', 'E', 'F', 'F#/Gb', 'G', 'G#/Ab', 'A', 'A#/Bb', 'B'].mean()
+    mean_pitch_df = mean_pitch_df.reset_index()
+    return mean_pitch_df
+
+
+def mean_pitch_squared_df(chord_and_pitch_segment_df):
+    grouped_df = chord_and_pitch_segment_df.groupby(by=['chord'])
+    mean_pitch_df = grouped_df[
+        'C', 'C#/Db', 'D', 'D#/Eb', 'E', 'F', 'F#/Gb', 'G', 'G#/Ab', 'A', 'A#/Bb', 'B'].mean()
+    mean_pitch_df = mean_pitch_df.reset_index()
+    mean_pitch_squared = mean_pitch_df.drop(columns=['chord'])
+    print(mean_pitch_df.info())
+    mean_pitch_squared = mean_pitch_squared.apply(lambda x: x*x)
+    mean_pitch_squared.insert(0, 'chord', mean_pitch_df['chord'])
+
+    return mean_pitch_squared
+
+
 def plot_pitches_from_chord_df(chord_df):
     ax = chord_df.plot(y='C', kind='bar')
     chord_df.plot(y='C#/Db', ax=ax, color='orange', kind='bar')
@@ -72,4 +113,11 @@ def plot_pitches_from_chord_df(chord_df):
     chord_df.plot(y='B', ax=ax, color='pink', kind='bar')
     plt.show()
     return
+
+
+def plot_adj_pitches_from_chord_df(chord_df, graph_title):
+    chord_df.plot(x='chord', y=['C', 'C#/Db', 'D', 'D#/Eb', 'E', 'F', 'F#/Gb', 'G', 'G#/Ab', 'A', 'A#/Bb', 'B'],
+                  kind='bar')
+    plt.title(graph_title)
+    plt.show()
 

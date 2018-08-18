@@ -11,7 +11,7 @@ chord_timestamp_df.columns = ['start_chord', 'end_chord', 'chord']
 
 segments_df = dfs['segments']
 segments_df['chord'] = ''
-segments_df['chord'] = segments_df.apply(echo_nest_functions.get_chord_from_timestamp_df,
+segments_df['chord'] = segments_df.apply(echo_nest_functions.get_chord_from_timestamp,
                                          axis=1, args=(chord_timestamp_df,))
 segments_df['pitches'] = segments_df['pitches'].astype('str')
 

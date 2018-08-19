@@ -93,7 +93,8 @@ def mean_pitch_squared_df(chord_and_pitch_segment_df):
     mean_pitch_squared = mean_pitch_df.drop(columns=['chord'])
     print(mean_pitch_df.info())
     mean_pitch_squared = mean_pitch_squared.apply(lambda x: x*x)
-    mean_pitch_squared.insert(0, 'chord', mean_pitch_df['chord'])
+    mean_pitch_squared = mean_pitch_squared.div(mean_pitch_squared.sum(axis=1), axis=0)  # normalize the row
+    mean_pitch_squared.insert(0, 'chord', mean_pitch_df['chord'])  # re-insert the chord column
 
     return mean_pitch_squared
 

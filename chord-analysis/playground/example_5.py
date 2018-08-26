@@ -4,8 +4,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # David bowie Space Oddity
-dfs = echo_nest_functions.get_dfs_from_json("echonest_chords/0086/echonest.json")
-chord_timestamp_df = pd.read_csv("echonest_chords/0086/full.lab", sep="\t")
+dfs = echo_nest_functions.get_dfs_from_json("../echonest_chords/0086/echonest.json")
+chord_timestamp_df = pd.read_csv("../echonest_chords/0086/full.lab", sep="\t")
 # rename columns
 chord_timestamp_df.columns = ['start_chord', 'end_chord', 'chord']
 

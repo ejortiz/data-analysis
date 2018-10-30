@@ -5,6 +5,7 @@ class ChordHelper:
     @staticmethod
     def add_note_number_cols_to_df(chord_df):
         modded_chord_df = chord_df
+        modded_chord_df['note_0'] = ''
         modded_chord_df['note_1'] = ''
         modded_chord_df['note_2'] = ''
         modded_chord_df['note_3'] = ''
@@ -16,8 +17,11 @@ class ChordHelper:
         modded_chord_df['note_9'] = ''
         modded_chord_df['note_10'] = ''
         modded_chord_df['note_11'] = ''
-        modded_chord_df['note_12'] = ''
 
         return modded_chord_df
 
-
+    def get_chord_from_timestamp(self, row):
+        chord_name = row['chord']
+        chords = chords.loc[chords.iloc[:, 1] >= row['start'] + row['duration']]
+        if chords['chord'].size > 0:
+            return chords['chord'].iloc[0]

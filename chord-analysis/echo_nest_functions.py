@@ -5,8 +5,29 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-chord_names_list = ['C', 'C#/Db', 'D', 'D#/Eb', 'E', 'F', 'F#/Gb', 'G', 'G#/Ab', 'A', 'A#/Bb', 'B']
-
+pitch_name_classes = ['C', 'C#/Db', 'D', 'D#/Eb', 'E', 'F', 'F#/Gb', 'G', 'G#/Ab', 'A', 'A#/Bb', 'B']
+pitch_name_to_classes = {
+    'Cb': 11,
+    'C': 0,
+    'C#': 1,
+    'Db': 1,
+    'D': 2,
+    'D#': 3,
+    'Eb': 3,
+    'E': 4,
+    'Fb': 4,
+    'F': 5,
+    'F#': 6,
+    'Gb': 6,
+    'G': 7,
+    'G#': 8,
+    'Ab': 8,
+    'A': 9,
+    'A#': 10,
+    'Bb': 10,
+    'B': 11,
+    'B#': 0,
+}
 
 def get_chord_timestamp_df(full_lab_filepath, sep="\t"):
     df = pd.read_csv(full_lab_filepath, sep=sep)
@@ -65,6 +86,8 @@ def extract_pitch_class_columns(row):
     row['B'] = pitches[11]
     return row
 
+def extract_chromatic_scale_pitches(row):
+    chord_name = row['chord']
 
 def get_df_with_pitch_class_cols(echonest_data_df, chord_timestamp_df):
     segments_df = echonest_data_df['segments']

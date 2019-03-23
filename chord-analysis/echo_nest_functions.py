@@ -4,6 +4,7 @@ from pandas.io.json import json_normalize
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import re
 
 pitch_name_classes = ['C', 'C#/Db', 'D', 'D#/Eb', 'E', 'F', 'F#/Gb', 'G', 'G#/Ab', 'A', 'A#/Bb', 'B']
 pitch_name_to_classes = {
@@ -86,8 +87,30 @@ def extract_pitch_class_columns(row):
     row['B'] = pitches[11]
     return row
 
+
 def extract_chromatic_scale_pitches(row):
+    """
+    Takes a row of the echonest chord and modifies the row, returning
+    the pitch values from 0 to 11, starting with 0 being the root note
+    Recall that there are 12 notes in the chromatic scale
+    :param row:
+    :return:
+    """
     chord_name = row['chord']
+    root_note_pattern = r'([A-Z]|[A-Z]b|[A-Z]#)(?=:)'
+    match = re.search(root_note_pattern, chord_name)
+    if not match:
+        return row
+    root_note = match.group()  # get the root note name
+    root_note_class = pitch_name_to_classes[root_note]
+
+    # loop through note classes and add a title
+    for i in range(0, 12):
+        row_key = 'root_plus_' + str(i)
+        pitch_class = (root_note_class + i) % 12
+        row[row_key] = row[pitch_name_classes[pitch_class]]
+    return row
+
 
 def get_df_with_pitch_class_cols(echonest_data_df, chord_timestamp_df):
     segments_df = echonest_data_df['segments']
@@ -145,3 +168,10 @@ def plot_adj_pitches_from_chord_df(chord_df, graph_title):
     plt.title(graph_title)
     plt.show()
 
+def plot_chromatic_notes_from_chord_df(chord_df, graph_title):
+    chord_df.plot(x='chord', y=['root_plus_0', 'root_plus_1', 'root_plus_2', 'root_plus_3', 'root_plus_4',
+                                'root_plus_5', 'root_plus_6', 'root_plus_7', 'root_plus_8', 'root_plus_9',
+                                'root_plus_10', 'root_plus_11'],
+                  kind='bar')
+    plt.title(graph_title)
+    plt.show()
